@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Helper - Your Health Companion</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #4CAF50;
+      --primary-dark: #388E3C;
+      --primary-light: #81C784;
+      --secondary-color: #2196F3;
+      --accent-color: #FF9800;
+      --text-dark: #2c3e50;
+      --text-light: #ffffff;
+      --gradient-primary: linear-gradient(135deg, #4CAF50 0%, #45a049 50%, #388E3C 100%);
+      --gradient-secondary: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.1);
+      --shadow-medium: 0 20px 40px rgba(0,0,0,0.15);
+      --shadow-strong: 0 30px 60px rgba(0,0,0,0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Performance optimizations */
+    .feature-card,
+    .cta-button,
+    .nav-links a {
+      will-change: transform;
+    }
+
+    .particle {
+      will-change: transform, opacity;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-primary);
+      z-index: -2;
+    }
+
+    .animated-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+      animation: float 15s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: particleFloat 15s linear infinite;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
+
+    /* Navigation */
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: var(--primary-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+      background: rgba(76, 175, 80, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a:hover::before {
+      width: 80%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-light);
+      position: relative;
+      padding: 0 2rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      color: var(--text-light);
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--text-light);
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: var(--shadow-strong);
+      background: #f8f9fa;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: var(--text-light);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-primary);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .hero {
+        padding: 2rem 1rem;
+      }
+
+      .features {
+        padding: 3rem 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Smooth Scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Loading Animation */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Chatbot Styles */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow-strong);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .chatbot-container.active {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .chatbot-header {
+      background: var(--gradient-primary);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .chatbot-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .chatbot-info h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .chatbot-info p {
+      margin: 0;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .chatbot-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 0.25rem;
+      border-radius: 50%;
+      transition: background 0.2s ease;
+    }
+
+    .chatbot-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background: #f8f9fa;
+    }
+
+    .message {
+      display: flex;
+      margin-bottom: 1rem;
+      animation: messageSlide 0.3s ease;
+    }
+
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .bot-message {
+      justify-content: flex-start;
+    }
+
+    .user-message {
+      justify-content: flex-end;
+    }
+
+    .message-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .bot-message .message-avatar {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .user-message .message-avatar {
+      background: var(--secondary-color);
+      color: white;
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+
+    .message-content {
+      max-width: 80%;
+      padding: 0.75rem 1rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .bot-message .message-content {
+      background: white;
+      color: var(--text-dark);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .user-message .message-content {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .message-content ul {
+      margin: 0.5rem 0;
+      padding-left: 1rem;
+    }
+
+    .message-content li {
+      margin: 0.25rem 0;
+    }
+
+    .chatbot-input-container {
+      padding: 1rem;
+      background: white;
+      border-top: 1px solid #e9ecef;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    #chatInput {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #e9ecef;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    #chatInput:focus {
+      border-color: var(--primary-color);
+    }
+
+    .send-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .send-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-medium);
+      transition: all 0.3s ease;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chatbot-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 1rem;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      animation: typingDot 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typingDot {
+      0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive Chatbot */
+    @media (max-width: 768px) {
+      .chatbot-container {
+        width: calc(100vw - 40px);
+        height: calc(100vh - 100px);
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+      }
+
+      .chatbot-toggle {
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  <div class="particles" id="particles"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo" data-aos="fade-right" data-aos-duration="1000">
+        <i class="fas fa-heartbeat"></i> Healthcare Helper
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-aos="fade-down" data-aos-delay="100">Home</a></li>
+        <li><a href="assessment.html" data-aos="fade-down" data-aos-delay="200">Risk Assessment</a></li>
+        <li><a href="about.html" data-aos="fade-down" data-aos-delay="300">About</a></li>
+        <li><a href="contact.html" data-aos="fade-down" data-aos-delay="400">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+        Welcome to Healthcare Helper
+      </h1>
+      <p data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400">
+        Check your diabetes risk in minutes with our easy-to-use dashboard and personalized health insights
+      </p>
+      <a href="assessment.html" class="cta-button" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="600">
+        <i class="fas fa-play"></i> Start Assessment
+      </a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <h2 data-aos="fade-up" data-aos-duration="1000">
+        Why Choose Healthcare Helper?
+      </h2>
+      
+      <div class="features-grid">
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+          <i class="fas fa-shield-alt feature-icon"></i>
+          <h3>Secure & Private</h3>
+          <p>Your health data is encrypted and stored securely. We prioritize your privacy and confidentiality above all else.</p>
+        </div>
+        
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+          <i class="fas fa-clock feature-icon"></i>
+          <h3>Quick Assessment</h3>
+          <p>Get your diabetes risk assessment in just 5 minutes. Our streamlined process saves you time while providing accurate results.</p>
+        </div>
+        
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+          <i class="fas fa-chart-line feature-icon"></i>
+          <h3>Personalized Insights</h3>
+          <p>Receive tailored recommendations based on your unique health profile and risk factors for better health outcomes.</p>
+        </div>
+        
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+          <i class="fas fa-mobile-alt feature-icon"></i>
+          <h3>Mobile Friendly</h3>
+          <p>Access your health dashboard anywhere, anytime. Our responsive design works perfectly on all devices.</p>
+        </div>
+        
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
+          <i class="fas fa-user-md feature-icon"></i>
+          <h3>Expert Backed</h3>
+          <p>Our assessment tools are developed in collaboration with healthcare professionals and medical experts.</p>
+        </div>
+        
+        <div class="feature-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+          <i class="fas fa-heart feature-icon"></i>
+          <h3>Health Tracking</h3>
+          <p>Monitor your health progress over time with detailed reports and trend analysis to stay on top of your wellness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Health Chatbot -->
+  <div class="chatbot-container" id="chatbot">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <i class="fas fa-user-md"></i>
+      </div>
+      <div class="chatbot-info">
+        <h3>Health Assistant</h3>
+        <p>Ask me about health & wellness</p>
+      </div>
+      <button class="chatbot-close" id="closeChatbot">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="chatbot-messages" id="chatMessages">
+      <div class="message bot-message">
+        <div class="message-avatar">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="message-content">
+          <p>Hello! I'm your health assistant. I can help you with:</p>
+          <ul>
+            <li>General health questions</li>
+            <li>Diabetes information</li>
+            <li>Wellness tips</li>
+            <li>Healthy lifestyle advice</li>
+          </ul>
+          <p>How can I help you today?</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chatbot-input-container">
+      <input type="text" id="chatInput" placeholder="Ask about your health..." maxlength="500">
+      <button id="sendMessage" class="send-btn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chatbot Toggle Button -->
+  <button class="chatbot-toggle" id="chatbotToggle">
+    <i class="fas fa-comments"></i>
+    <span class="notification-badge" id="notificationBadge" style="display: none;">1</span>
+  </button>
+
+  <!-- AOS Animation Library -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  
+  <script>
+    // Initialize AOS with optimized settings
+    AOS.init({
+      duration: 800, // Reduced from 1000
+      easing: 'ease-out', // Changed from ease-in-out
+      once: true,
+      offset: 50, // Reduced from 100
+      disable: 'mobile' // Disable on mobile for better performance
+    });
+
+    // Loading screen
+    window.addEventListener('load', function() {
+      const loading = document.getElementById('loading');
+      setTimeout(() => {
+        loading.classList.add('hidden');
+      }, 1000);
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Create floating particles (reduced count for performance)
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 15; // Reduced from 50 to 15
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random size between 2px and 4px (smaller for better performance)
+        const size = Math.random() * 2 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // Random horizontal position
+        particle.style.left = Math.random() * 100 + '%';
+        
+        // Random animation delay
+        particle.style.animationDelay = Math.random() * 10 + 's';
+        
+        // Random animation duration (shorter for better performance)
+        particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Initialize particles
+    createParticles();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Optimized hover effects with throttling
+    let hoverTimeout;
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        clearTimeout(hoverTimeout);
+        this.style.transform = 'translateY(-5px)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        hoverTimeout = setTimeout(() => {
+          this.style.transform = 'translateY(0)';
+        }, 50);
+      });
+    });
+
+    // Simplified click animation
+    document.querySelector('.cta-button').addEventListener('click', function(e) {
+      this.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        this.style.transform = 'scale(1)';
+      }, 100);
+    });
+
+    // Health Chatbot Implementation
+    class HealthChatbot {
+      constructor() {
+        this.chatHistory = this.loadChatHistory();
+        this.isOpen = false;
+        this.initializeElements();
+        this.bindEvents();
+        this.showWelcomeMessage();
+      }
+
+      initializeElements() {
+        this.chatbot = document.getElementById('chatbot');
+        this.toggleBtn = document.getElementById('chatbotToggle');
+        this.closeBtn = document.getElementById('closeChatbot');
+        this.messagesContainer = document.getElementById('chatMessages');
+        this.input = document.getElementById('chatInput');
+        this.sendBtn = document.getElementById('sendMessage');
+        this.notificationBadge = document.getElementById('notificationBadge');
+      }
+
+      bindEvents() {
+        this.toggleBtn.addEventListener('click', () => this.toggleChatbot());
+        this.closeBtn.addEventListener('click', () => this.closeChatbot());
+        this.sendBtn.addEventListener('click', () => this.sendMessage());
+        this.input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.sendMessage();
+        });
+      }
+
+      toggleChatbot() {
+        this.isOpen = !this.isOpen;
+        if (this.isOpen) {
+          this.openChatbot();
+        } else {
+          this.closeChatbot();
+        }
+      }
+
+      openChatbot() {
+        this.chatbot.classList.add('active');
+        this.toggleBtn.style.display = 'none';
+        this.notificationBadge.style.display = 'none';
+        this.input.focus();
+      }
+
+      closeChatbot() {
+        this.chatbot.classList.remove('active');
+        this.toggleBtn.style.display = 'flex';
+        this.isOpen = false;
+      }
+
+      showWelcomeMessage() {
+        if (this.chatHistory.length === 0) {
+          // Show notification badge for first-time users
+          setTimeout(() => {
+            this.notificationBadge.style.display = 'flex';
+          }, 3000);
+        }
+      }
+
+      sendMessage() {
+        const message = this.input.value.trim();
+        if (!message) return;
+
+        this.addMessage(message, 'user');
+        this.input.value = '';
+        
+        // Show typing indicator
+        this.showTypingIndicator();
+        
+        // Simulate bot response delay
+        setTimeout(() => {
+          this.hideTypingIndicator();
+          const response = this.generateResponse(message);
+          this.addMessage(response, 'bot');
+        }, 1000 + Math.random() * 1000);
+      }
+
+      addMessage(content, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = sender === 'bot' ? '<i class="fas fa-user-md"></i>' : '<i class="fas fa-user"></i>';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.innerHTML = this.formatMessage(content);
+        
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(messageContent);
+        
+        this.messagesContainer.appendChild(messageDiv);
+        this.scrollToBottom();
+        
+        // Save to chat history
+        this.saveMessage(content, sender);
+      }
+
+      formatMessage(content) {
+        // Convert line breaks to <br> tags
+        return content.replace(/\n/g, '<br>');
+      }
+
+      showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typingIndicator';
+        
+        typingDiv.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        `;
+        
+        this.messagesContainer.appendChild(typingDiv);
+        this.scrollToBottom();
+      }
+
+      hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.remove();
+        }
+      }
+
+      scrollToBottom() {
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+      }
+
+      generateResponse(userMessage) {
+        const message = userMessage.toLowerCase();
+        
+        // Health knowledge base
+        const responses = {
+          // Diabetes related
+          'diabetes': 'Diabetes is a chronic condition that affects how your body processes blood sugar. There are two main types: Type 1 (insulin-dependent) and Type 2 (non-insulin dependent). Key symptoms include increased thirst, frequent urination, fatigue, and blurred vision. Regular monitoring and a healthy lifestyle are crucial for management.',
+          
+          'blood sugar': 'Blood sugar levels should typically be between 70-100 mg/dL when fasting and under 140 mg/dL two hours after eating. For diabetics, target ranges may vary. Regular monitoring, a balanced diet, regular exercise, and medication adherence are key to maintaining healthy blood sugar levels.',
+          
+          'insulin': 'Insulin is a hormone that helps glucose enter your cells for energy. People with Type 1 diabetes don\'t produce insulin, while those with Type 2 diabetes may not use insulin effectively. Insulin therapy, along with diet and exercise, helps manage blood sugar levels.',
+          
+          // General health
+          'exercise': 'Regular exercise is essential for overall health! Aim for at least 150 minutes of moderate-intensity exercise per week. This can include walking, swimming, cycling, or any activity you enjoy. Exercise helps control blood sugar, improves heart health, and boosts mood.',
+          
+          'diet': 'A healthy diet is crucial for managing diabetes and overall health. Focus on whole grains, lean proteins, fruits, vegetables, and healthy fats. Limit processed foods, sugary drinks, and excessive carbohydrates. Consider working with a dietitian for personalized meal planning.',
+          
+          'weight': 'Maintaining a healthy weight is important for diabetes management and overall health. Even a 5-10% weight loss can significantly improve blood sugar control. Focus on sustainable lifestyle changes rather than quick fixes.',
+          
+          'stress': 'Stress can significantly impact blood sugar levels and overall health. Practice stress management techniques like deep breathing, meditation, yoga, or regular exercise. Getting adequate sleep and maintaining social connections also help reduce stress.',
+          
+          'symptoms': 'Common diabetes symptoms include increased thirst, frequent urination, extreme fatigue, blurred vision, slow-healing wounds, and unexplained weight loss. If you experience these symptoms, consult with a healthcare professional for proper evaluation.',
+          
+          // Prevention
+          'prevent': 'To prevent Type 2 diabetes, maintain a healthy weight, exercise regularly, eat a balanced diet, avoid smoking, and limit alcohol consumption. Regular health checkups can help detect early signs and allow for timely intervention.',
+          
+          'risk factors': 'Risk factors for Type 2 diabetes include family history, being overweight, physical inactivity, age (45+), high blood pressure, and certain ethnic backgrounds. Understanding your risk factors can help you take preventive measures.',
+          
+          // Lifestyle
+          'sleep': 'Quality sleep is essential for health and blood sugar regulation. Aim for 7-9 hours per night. Poor sleep can affect insulin sensitivity and increase diabetes risk. Maintain a consistent sleep schedule and create a relaxing bedtime routine.',
+          
+          'water': 'Staying hydrated is important for overall health. Water helps regulate body temperature, supports kidney function, and can help with blood sugar control. Aim for 8-10 glasses of water daily, more if you\'re active or in hot weather.',
+          
+          // Emergency
+          'emergency': 'If you experience severe symptoms like confusion, rapid breathing, fruity-smelling breath, or loss of consciousness, seek immediate medical attention. These could be signs of diabetic ketoacidosis or other serious complications.',
+          
+          // General greetings
+          'hello': 'Hello! I\'m here to help with your health questions. Feel free to ask about diabetes, general wellness, exercise, nutrition, or any health concerns you might have.',
+          
+          'help': 'I can help you with information about diabetes, general health, nutrition, exercise, stress management, and wellness tips. What would you like to know more about?',
+          
+          'thank': 'You\'re welcome! I\'m here whenever you need health information or support. Don\'t hesitate to ask if you have more questions!'
+        };
+
+        // Check for keyword matches
+        for (const [keyword, response] of Object.entries(responses)) {
+          if (message.includes(keyword)) {
+            return response;
+          }
+        }
+
+        // Default responses based on message patterns
+        if (message.includes('how') || message.includes('what') || message.includes('why')) {
+          return 'That\'s a great question! For specific medical advice, I recommend consulting with a healthcare professional. However, I can provide general information about diabetes, nutrition, exercise, and wellness. What specific topic would you like to learn more about?';
+        }
+
+        if (message.includes('pain') || message.includes('hurt') || message.includes('ache')) {
+          return 'I understand you\'re experiencing discomfort. While I can\'t diagnose or treat medical conditions, I recommend consulting with a healthcare professional for proper evaluation. For general wellness tips, I\'m happy to help with diet, exercise, and lifestyle advice.';
+        }
+
+        if (message.includes('medication') || message.includes('drug') || message.includes('pill')) {
+          return 'Medication questions should always be discussed with your healthcare provider or pharmacist. They can provide specific information about dosages, interactions, and side effects. I can help with general information about diabetes management and healthy lifestyle choices.';
+        }
+
+        // Fallback response
+        return 'I\'m here to help with health and wellness information! I can provide guidance on diabetes management, nutrition, exercise, stress management, and general health topics. What specific area would you like to learn more about?';
+      }
+
+      saveMessage(content, sender) {
+        const message = {
+          content: content,
+          sender: sender,
+          timestamp: new Date().toISOString()
+        };
+        
+        this.chatHistory.push(message);
+        
+        // Keep only last 50 messages to prevent storage bloat
+        if (this.chatHistory.length > 50) {
+          this.chatHistory = this.chatHistory.slice(-50);
+        }
+        
+        this.saveChatHistory();
+      }
+
+      saveChatHistory() {
+        try {
+          localStorage.setItem('healthChatbot_history', JSON.stringify(this.chatHistory));
+        } catch (error) {
+          console.warn('Could not save chat history:', error);
+        }
+      }
+
+      loadChatHistory() {
+        try {
+          const saved = localStorage.getItem('healthChatbot_history');
+          return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+          console.warn('Could not load chat history:', error);
+          return [];
+        }
+      }
+
+      clearChatHistory() {
+        this.chatHistory = [];
+        this.saveChatHistory();
+        this.messagesContainer.innerHTML = `
+          <div class="message bot-message">
+            <div class="message-avatar">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <div class="message-content">
+              <p>Hello! I'm your health assistant. I can help you with:</p>
+              <ul>
+                <li>General health questions</li>
+                <li>Diabetes information</li>
+                <li>Wellness tips</li>
+                <li>Healthy lifestyle advice</li>
+              </ul>
+              <p>How can I help you today?</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize chatbot when page loads
+    let chatbot;
+    window.addEventListener('DOMContentLoaded', function() {
+      chatbot = new HealthChatbot();
+    });
+  </script>
+</body>
+</html>
