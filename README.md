@@ -96,13 +96,11 @@ This project promotes **preventive healthcare**, helping users understand their 
 
 ---
 
-## 📸 Screenshots
-*(Include relevant screenshots of your homepage, dashboard, and chatbot interface)*
 
 ---
 
 ## 📝 License
-MIT License © 2025 Nishchay 
+MIT License © 2025 Nishchay@mayur
 
 ---
 
