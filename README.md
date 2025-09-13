@@ -7,6 +7,10 @@
 This project was developed for **Hackathon 2025** under the **Social Good** theme, promoting **preventive healthcare** and early awareness.
 
 ---
+##Who worked on this project ? 
+	- mayur123mame
+ -linuxcybersec
+
 
 ## 🌟 Features
 
@@ -98,7 +102,7 @@ This project promotes **preventive healthcare**, helping users understand their 
 ---
 
 ## 📝 License
-MIT License © 2025 Nishchay Knox
+MIT License © 2025 Nishchay 
 
 ---
 
